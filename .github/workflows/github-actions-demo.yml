@@ -13,4 +13,5 @@ jobs:
       - run: ls -la #vedo che file ci sono
       - run: python --version
       - run: uname -a
+      - run: pip install pytest
       - run: pytest
