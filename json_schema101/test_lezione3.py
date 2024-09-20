@@ -38,3 +38,17 @@ def test_function_output_with_snapshot(snapshot: Snapshot):
     pierino_stringa = str(pierino)
 
     snapshot.assert_match(str(pierino_stringa), 'foo_output.txt')
+
+
+# CREO CSV
+frutti = '''
+frutti,prezzo,colore,sapore
+pera,100,rossa,dolce
+mela,500,blu,gustosa
+ananas,300,gialla,piccante 
+'''
+
+def test_function_output_with_snapshot_csv(snapshot: Snapshot):
+    snapshot.snapshot_dir = 'snapshots'  # This line is optional.
+
+    snapshot.assert_match(frutti, 'frutta.csv')
