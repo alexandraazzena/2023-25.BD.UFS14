@@ -1,4 +1,5 @@
 from jsonschema import validate
+from pytest_snapshot.plugin import Snapshot
 from lezione3 import schema
 
 # TEST test_sample lezione1
@@ -26,3 +27,14 @@ def my_validate(instance, schema):
     except: 
         return False
     
+
+# SNAPSHOOT TEST
+#(scrivo requirement.test.txt in cui inserisco solo librerie di test)
+
+def test_function_output_with_snapshot(snapshot: Snapshot):
+    snapshot.snapshot_dir = 'snapshots'  # This line is optional.
+
+    pierino = func(5)
+    pierino_stringa = str(pierino)
+
+    snapshot.assert_match(str(pierino_stringa), 'foo_output.txt')
