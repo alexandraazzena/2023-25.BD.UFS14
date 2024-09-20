@@ -41,8 +41,7 @@ def test_function_output_with_snapshot(snapshot: Snapshot):
 
 
 # CREO CSV
-frutti = '''
-frutti,prezzo,colore,sapore
+frutti = '''frutti,prezzo,colore,sapore
 pera,100,rossa,dolce
 mela,500,blu,gustosa
 ananas,300,gialla,piccante 
