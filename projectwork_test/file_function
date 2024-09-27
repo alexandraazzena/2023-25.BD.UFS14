@@ -67,3 +67,10 @@ def filtra_link_univoci(nomi_links):
     
     diz = dict(nomi_links_univoci)
     return diz
+
+
+def crea_dizionario(nomi_links):
+    dizionario = {}
+    for n_ingr, l_ingr in nomi_links:
+        dizionario[n_ingr] = l_ingr
+    return dizionario

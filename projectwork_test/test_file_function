@@ -1,6 +1,30 @@
-from file_function import controllo_validita_url
+from file_function import controllo_validita_url, crea_dizionario
 
 def test_controllo_validita_url():
     assert controllo_validita_url('https://google.com')== True
     assert controllo_validita_url('http://google.com')== True
     assert controllo_validita_url('https//google.com')== False
+
+def test_crea_diz():
+
+    # Esecuzione della funzione da testare
+    risultato = crea_dizionario(nomi_links)
+
+    # Verifica che il risultato sia un dizionario
+    assert isinstance(risultato, dict), "Il risultato non è un dizionario"
+
+    # Verifica che ogni chiave sia una stringa
+    for chiave in risultato.keys():
+        assert isinstance(chiave, str), f"La chiave {chiave} non è una stringa"
+
+    # Verifica che ogni valore sia una stringa
+    for valore in risultato.values():
+        assert isinstance(valore, str), f"Il valore {valore} non è una stringa"
+
+    # Verifica che le chiavi siano quelle attese
+    chiavi_attese = {"nome1", "nome2", "nome3"}
+    assert set(risultato.keys()) == chiavi_attese, "Le chiavi non corrispondono a quelle attese"
+
+    # Verifica che i valori siano quelli attesi
+    valori_attesi = {"link1", "link2", "link3"}
+    assert set(risultato.values()) == valori_attesi, "I valori non corrispondono a quelli attesi"
