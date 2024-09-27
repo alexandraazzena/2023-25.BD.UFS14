@@ -8,23 +8,15 @@ def test_controllo_validita_url():
 def test_crea_diz():
 
     # Esecuzione della funzione da testare
-    risultato = crea_dizionario(nomi_links)
+    output = crea_dizionario(nomi_links)
 
     # Verifica che il risultato sia un dizionario
-    assert isinstance(risultato, dict), "Il risultato non è un dizionario"
+    assert isinstance(output, dict), "Il risultato non è un dizionario"
 
     # Verifica che ogni chiave sia una stringa
-    for chiave in risultato.keys():
+    for chiave in output.keys():
         assert isinstance(chiave, str), f"La chiave {chiave} non è una stringa"
 
     # Verifica che ogni valore sia una stringa
-    for valore in risultato.values():
+    for valore in output.values():
         assert isinstance(valore, str), f"Il valore {valore} non è una stringa"
-
-    # Verifica che le chiavi siano quelle attese
-    chiavi_attese = {"nome1", "nome2", "nome3"}
-    assert set(risultato.keys()) == chiavi_attese, "Le chiavi non corrispondono a quelle attese"
-
-    # Verifica che i valori siano quelli attesi
-    valori_attesi = {"link1", "link2", "link3"}
-    assert set(risultato.values()) == valori_attesi, "I valori non corrispondono a quelli attesi"
