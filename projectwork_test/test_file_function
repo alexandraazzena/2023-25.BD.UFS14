@@ -1,4 +1,4 @@
-from file_func import controllo_validita_url
+from file_function import controllo_validita_url
 
 def test_controllo_validita_url():
     assert controllo_validita_url('https://google.com')== True
