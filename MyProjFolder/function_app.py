@@ -5,6 +5,7 @@ import logging
 import re
 from pypdf import PdfReader
 from io import BytesIO
+import requests
 
 app = func.FunctionApp()
 
@@ -26,19 +27,32 @@ def HttpExample(req: func.HttpRequest) -> func.HttpResponse:
 
 
 # 2. Azure function per estrazione parole chiave
-@app.route(route="ricerca_keyword_pdf", auth_level=func.AuthLevel.ANONYMOUS, methods=["POST"])
+@app.route(route="ricerca_keyword_pdf", auth_level=func.AuthLevel.ANONYMOUS)
 def ricerca_keyword_pdf(req: func.HttpRequest) -> func.HttpResponse:
     logging.info("Endpoint chiamato.")
+
+    url = req.params.get('url_da_validare')
+    
+    if not url or not controllo_validita_url(url):
+        return func.HttpResponse("URL non valido o mancante.", status_code=400)
     
     try:
-        # Riceve il PDF come file binario
-        testo = estrai_testo_pdf(BytesIO(req.get_body()))
+        # Scarica il PDF dall'URL
+        response = requests.get(url)
+        response.raise_for_status()  # Alza eccezione se l'URL non risponde correttamente
+        
+        # Converte il PDF scaricato in binario
+        testo = estrai_testo_pdf(BytesIO(response.content))
+        
         # Parole chiave da cercare
         keywords = ["LD₅₀", "LD50", "LD 50", "Ld50", "Ld₅₀"]
-        # Estrae il testo dal PDF
-        contesti = estrai_contesto(testo, keywords)
         
-        # Concatena i contesti estratti in una stringa e restituisce i contesti come HttpResponse
+        # Estrae i contesti
+        contesti = []
+        for keyword in keywords:
+            contesti.extend(estrai_contesto(testo, keyword))
+        
+        # Concatena i contesti estratti
         return func.HttpResponse(
             "\n\n".join(contesti) if contesti else "Nessun contesto trovato.",
             mimetype="text/plain",
@@ -48,6 +62,8 @@ def ricerca_keyword_pdf(req: func.HttpRequest) -> func.HttpResponse:
     except Exception as e:
         logging.error(f"Errore: {e}")
         return func.HttpResponse("Errore nell'elaborazione.", status_code=500)
+
+
 
 
 
@@ -65,7 +81,7 @@ def estrai_testo_pdf(contenuto_pdf_binario):
     testo_estratto = ""
     for pagina in range(lunghezza_pdf):
         oggetto_pagina = reader.pages[pagina]
-        testo_estratto += oggetto_pagina.extract_text()
+        testo_estratto += oggetto_pagina.extract_text() or ""
     return testo_estratto
 
 # Funzione per estrarre contesto attorno alle parole chiave
