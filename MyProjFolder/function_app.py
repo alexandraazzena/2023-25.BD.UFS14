@@ -2,9 +2,9 @@ import azure.functions as func
 import datetime
 import json
 import logging
-'''import re
+import re
 from pypdf import PdfReader
-from io import BytesIO'''
+from io import BytesIO
 
 app = func.FunctionApp()
 
@@ -26,7 +26,7 @@ def HttpExample(req: func.HttpRequest) -> func.HttpResponse:
 
 
 # 2. Azure function per estrazione parole chiave
-'''@app.route(route="ricerca_keyword_pdf", auth_level=func.AuthLevel.ANONYMOUS, methods=["POST"])
+@app.route(route="ricerca_keyword_pdf", auth_level=func.AuthLevel.ANONYMOUS, methods=["POST"])
 def ricerca_keyword_pdf(req: func.HttpRequest) -> func.HttpResponse:
     logging.info("Endpoint chiamato.")
     
@@ -47,7 +47,7 @@ def ricerca_keyword_pdf(req: func.HttpRequest) -> func.HttpResponse:
         
     except Exception as e:
         logging.error(f"Errore: {e}")
-        return func.HttpResponse("Errore nell'elaborazione.", status_code=500)'''
+        return func.HttpResponse("Errore nell'elaborazione.", status_code=500)
 
 
 
