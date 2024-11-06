@@ -13,15 +13,15 @@ app = func.FunctionApp()
 def HttpExample(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
-    name = req.params.get('name')
+    #name = req.params.get('name')
     url_da_validare = req.params.get('url_da_validare')
-    if not name:
+    '''if not name:
         try:
             req_body = req.get_json()
         except ValueError:
             pass
         else:
-            name = req_body.get('name')
+            name = req_body.get('name')'''
 
     if url_da_validare:
         url_valido = controllo_validita_url(url_da_validare)
